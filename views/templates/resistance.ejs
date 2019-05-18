@@ -100,10 +100,10 @@
 		<label>From : </label><input class="col-12 col-sm-12 col-md-5 col-lg-4 col-xl-3" type="date" id="data-date-deb">
 		<label>To : </label><input class="col-12 col-sm-12 col-md-5 col-lg-4 col-xl-3" type="date" id="data-date-fin">
 		<input type="button" name="submit" id="update-chart" value="Display">
-		<select class="col-12 col-sm-12 col-md-5 col-lg-4 col-xl-3" name="select" id="selected-device">
+		<!--<select class="col-12 col-sm-12 col-md-5 col-lg-4 col-xl-3" name="select" id="selected-device">
 			<option value="null">No Device Selected</option>
 		</select>
-		<!--<input class="col-12 col-sm-12 col-md-5 col-lg-4 col-xl-3" type="date" id="data-date">-->
+		<input class="col-12 col-sm-12 col-md-5 col-lg-4 col-xl-3" type="date" id="data-date">-->
 	</div>
 	<div id="device_data">
 		<table>
@@ -168,7 +168,7 @@ function findMatch(string, index) {
 		console.log('// jQuery not present');
 	}
 	
-	$("#device_select input[type=date]").attr({'max': new Date().toJSON().split('T')[0]});
+	//$("#device_select input[type=date]").attr({'max': new Date().toJSON().split('T')[0]});
 	/*$( "input[type='date']" ).change(function() {
 			findMatch($(this).val(), 33);
 		});*/
