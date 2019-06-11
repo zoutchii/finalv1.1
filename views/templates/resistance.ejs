@@ -24,7 +24,6 @@
   background: #c2f0f0;
   cursor: pointer;
 }
-
 #device_select {
 	margin: 15px 0px;
 	text-align: center;
@@ -53,22 +52,18 @@
 	border-radius: 8px;
 	box-shadow: 3px 5px 3px #80CBC4;
 }
-
-
 /* Extra small devices (portrait phones, less than 576px) */
 @media screen and (max-width: 575.98px) {
 	.voltage-current, .temperature {
 		display: none;
 	}
 }
-
 /* Small devices (landscape phones, 576px and up) */
 @media screen and (min-width: 576px) and (max-width: 767.98px) {
 	.voltage-current, .temperature {
 		display: none;
 	}
 }
-
 /* Medium devices (tablets, 768px and up) */
 @media screen and (min-width: 768px) and (max-width: 991.98px) {
 	.voltage-current {
@@ -78,33 +73,31 @@
 		display: ;
 	}
 }
-
 /* Large devices (desktops, 992px and up) */
 @media screen and (min-width: 992px) and (max-width: 1199.98px) {
 	.voltage-current, .temperature {
 		display: ;
 	}
 }
-
 /* Extra large devices (large desktops, 1200px and up) */
 @media screen and (min-width: 1200px) {
 	.voltage-current, .temperature {
 		display: ;
 	}
 }
-
 </style>
 
 <div id="container">
-<select class="col-12 col-sm-12 col-md-5 col-lg-4 col-xl-3" name="select" id="selected-device">
-			<option value="null">No Device Selected</option>
-		</select>
 	<div id="device_select" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+		<select class="col-12 col-sm-12 col-md-5 col-lg-4 col-xl-3" name="select" id="selected-device">
+			<option value="null">No Device Selected</option>
+			<option value="1">Machine 1</option>
+			<option value="2">Machine 2</option>
+		</select>&nbsp;&nbsp;&nbsp;&nbsp;	
 		<label>From : </label><input class="col-12 col-sm-12 col-md-5 col-lg-4 col-xl-3" type="date" id="data-date-deb">
 		<label>To : </label><input class="col-12 col-sm-12 col-md-5 col-lg-4 col-xl-3" type="date" id="data-date-fin">
 		<input type="button" name="submit" id="update-chart" value="Display">
-		<!--
-		<input class="col-12 col-sm-12 col-md-5 col-lg-4 col-xl-3" type="date" id="data-date">-->
+		<!--<input class="col-12 col-sm-12 col-md-5 col-lg-4 col-xl-3" type="date" id="data-date">-->
 	</div>
 	<div id="device_data">
 		<table>
@@ -175,14 +168,23 @@ function findMatch(string, index) {
 		});*/
 		
 $(document ).ready(function() {
-
     //$("#main > #container > .sk-circle").css({"visibility": "visible"});	
 	$("#chart-device_select input[type=date]").attr({'max': new Date().toJSON().split('T')[0]});
 	$("#device_select #update-chart").click(function(event) {
 		var datedeb=$("#device_select input[type=date]").first().val();
 		var datefin=$("#device_select input[type=date]").last().val();
+		var data_from =$('#selected-device').val();
+		
 		$("#container .sk-circle").css({"visibility": "visible"});
 		$("#device_stat_data table tbody").html("");
+		if(data_from == "null"){
+			$('.alert-warning').text('Please select a valid Machine').show();
+		      setTimeout(function() {
+		        $('.alert-warning').hide();
+		      }, 1500);
+		      $("#container .sk-circle").css({"visibility": "hidden"});
+		      return ;
+		}		
 		if(datedeb == "null" || datefin == ""){
 			$('.alert-warning').text('Please provide a valid time interval').show();
 		      setTimeout(function() {
@@ -197,6 +199,7 @@ $(document ).ready(function() {
 		var datedeb = parseInt(temp1[2]).toString()+"/"+parseInt(temp1[1]).toString()+"/"+temp1[0].toString();
 		var datefin = parseInt(temp2[2]).toString()+"/"+parseInt(temp2[1]).toString()+"/"+temp2[0].toString()
 		var data = {
+			'data_from': data_from,
 			'datedeb': datedeb,
 			'datefin': datefin
 		}
@@ -224,7 +227,6 @@ $(document ).ready(function() {
 		      else {
 		        
 		      }
-
 		    }).fail(function(error) {
 		      $("#container .sk-circle").css({"visibility": "hidden"});
 		      $('.alert-danger').text('Could not get data').show();
@@ -236,7 +238,4 @@ $(document ).ready(function() {
 	   $("#container > .sk-circle").css({"visibility": "hidden"});
 	   
 });
-
 </script>
-
-
