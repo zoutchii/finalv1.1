@@ -238,7 +238,7 @@ if (req.session.userId) {
 })
 router.post('/console/getresists', (req, res) => {
 if (req.session.userId) {		
-		var docRef = db1.ref("TEST1");
+		var docRef = db1.ref("valid1");
 		docRef.once("value", function(snapshot) {
 			var obj=[];
 			snapshot.forEach(function(data) {
@@ -268,7 +268,7 @@ router.post('/console/clients', (req, res) => {
 });
 router.post('/console/getclients', (req, res) => {
 	if (req.session.userId) {
-		var docRef = db1.ref("valid1");
+		var docRef = db1.ref("TEST1");
 		docRef.once("value", function(snapshot) {
 			var obj=[];
 			snapshot.forEach(function(data) {
