@@ -731,7 +731,7 @@ if (req.session.userId) {
 		return res.status(403).send('UNAUTHORIZED REQUEST!');
 	}
 })
-router.post('/console/getresists2', (req, res) => {
+router.post('/console/getclients1', (req, res) => {
 if (req.session.userId) {		
 		var docRef = db1.ref("valid1");
 		docRef.once("value", function(snapshot) {
@@ -752,7 +752,7 @@ if (req.session.userId) {
 		return res.status(403).send('UNAUTHORIZED REQUEST!');
 	}
 })	
-router.post('/console/getresists', (req, res) => {
+router.post('/console/getproducts1', (req, res) => {
 if (req.session.userId) {		
 		var docRef = db1.ref("failed1");
 		docRef.once("value", function(snapshot) {
