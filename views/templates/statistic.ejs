@@ -60,7 +60,6 @@
 	background: white;
 	border-radius: 8px;
 	box-shadow: 3px 5px 3px #9ad0f5;
-
 }
 #chart-device_select #update-chart:hover {
 	background: #9ad0f5;
@@ -88,16 +87,17 @@
 </style>
 
 <div id="container">
-	<div id="device_select" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-		<select class="col-12 col-sm-12 col-md-5 col-lg-4 col-xl-3" name="select" id="selected-device">
+	<div id="chart-device_select" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+		<select class="col-12 col-sm-12 col-md-5 col-lg-4 col-xl-3" name="select" id="chart-selected-device">
 			<option value="null">No Device Selected</option>
 			<option value="1">Machine 1</option>
-			<option value="2">Machine 2</option>
-		</select>&nbsp;&nbsp;&nbsp;&nbsp;	
-		<label>From : </label><input class="col-12 col-sm-12 col-md-5 col-lg-4 col-xl-3" type="date" id="data-date-deb">
-		<label>To : </label><input class="col-12 col-sm-12 col-md-5 col-lg-4 col-xl-3" type="date" id="data-date-fin">
-		<input type="button" name="submit" id="update-chart" value="Display">
-		<!--<input class="col-12 col-sm-12 col-md-5 col-lg-4 col-xl-3" type="date" id="data-date">-->
+			<option value="2">Machine 2</option>			
+		</select>&nbsp;&nbsp;&nbsp;&nbsp;
+		<label>From : </label><input class="col-12 col-sm-12 col-md-5 col-lg-4 col-xl-3" type="date" id="chart-date-deb">
+		<label>To : </label><input class="col-12 col-sm-12 col-md-5 col-lg-4 col-xl-3" type="date" id="chart-date-fin">
+		<input type="button" name="submit" id="update-chart" value="Display">		
+		<!--<input class="col-12 col-sm-12 col-md-5 col-lg-4 col-xl-3" type="date" id="chart-data-date">
+		<input type="button" name="submit" id="update-chart" value="Display">-->
 	</div>
 	<!--<div id="device_stat_data">
 		<table>
@@ -182,257 +182,181 @@
     </div>
 </div>
 
-
-
 <script>
-// find matching tr in dashboard table 
-function findMatch(string, index) {
-	if(string == "")
-		$("table tbody .dev-data").show();
-	var temp = string.split('-');
-	string = parseInt(temp[2]).toString()+"/"+parseInt(temp[1]).toString()+"/"+temp[0].toString()
-	var re = new RegExp(string); //.replace(/\//g, "-")
-	var temp;
-	$.each( $("table tbody .dev-data"), function( key, value ) {
-		temp = $.parseHTML( value.innerHTML );
-		if((temp[index].innerHTML.toLowerCase().split(" ")[0].match(re)) == null)
-			$(this).hide();
-		else
-			$(this).show();
-	});
-}
-	/************************************************************************/
-	if ('undefined' == typeof window.jQuery) {
-		console.log('// jQuery not present');
+	var chart_temp, chart_gp;
+	var temperature = [], gp = [], upload = [];
+	var data = {};
+$("#chart-device_select #update-chart").click(function(event) {
+	$("#container .sk-circle").css({"visibility": "visible"});
+	var datedeb=$("#chart-device_select input[type=date]").first().val();
+	var datefin=$("#chart-device_select input[type=date]").last().val();
+	var data_from =$('#chart-selected-device').val();
+	if (data_from !== "null") {if ($('div#machine').length) $('div#machine').remove(); var t_text='Machine '+data_from;$('div.chart').prepend('<div id="machine" class="chart-title">'+t_text+'</div>');}
+	if(data_from == "null"){
+		$('.alert-warning').text('Please select a valid Machine').show();
+		  setTimeout(function() {
+			$('.alert-warning').hide();
+		  }, 1500);
+		  $("#container .sk-circle").css({"visibility": "hidden"});
+		  return ;
+	}		
+	if($("#chart-date-deb").val() == "" || $("#chart-date-fin").val() == ""){
+		$('.alert-warning').text('Please provide a valid time interval').show();
+		  setTimeout(function() {
+			$('.alert-warning').hide();
+		  }, 1500);
+		  $("#container .sk-circle").css({"visibility": "hidden"});
+		  return ;
 	}
-	
-	//$("#device_select input[type=date]").attr({'max': new Date().toJSON().split('T')[0]});
-	/*$( "input[type='date']" ).change(function() {
-			findMatch($(this).val(), 33);
-		});*/
-		
-$(document ).ready(function() {
-    //$("#main > #container > .sk-circle").css({"visibility": "visible"});	
-	$("#chart-device_select input[type=date]").attr({'max': new Date().toJSON().split('T')[0]});
-	$("#device_select #update-chart").click(function(event) {
-		var datedeb=$("#device_select input[type=date]").first().val();
-		var datefin=$("#device_select input[type=date]").last().val();
-		var data_from =$('#selected-device').val();
-		
-		$("#container .sk-circle").css({"visibility": "visible"});
-		$("#device_stat_data table tbody").html("");
-		if(data_from == "null"){
-			$('.alert-warning').text('Please select a valid Machine').show();
-		      setTimeout(function() {
-		        $('.alert-warning').hide();
-		      }, 1500);
-		      $("#container .sk-circle").css({"visibility": "hidden"});
-		      return ;
-		}		
-		if(datedeb == "null" || datefin == ""){
-			$('.alert-warning').text('Please provide a valid time interval').show();
-		      setTimeout(function() {
-		        $('.alert-warning').hide();
-		      }, 1500);
-		      $("#container .sk-circle").css({"visibility": "hidden"});
-		      return ;
-		}
-		var temp1 = $("#data-date-deb").val().split('-');
-		var temp2 = $("#data-date-fin").val().split('-');
-		console.log(temp1+'***'+temp2);
-		var datedeb = parseInt(temp1[2]).toString()+"/"+parseInt(temp1[1]).toString()+"/"+temp1[0].toString();
-		var datefin = parseInt(temp2[2]).toString()+"/"+parseInt(temp2[1]).toString()+"/"+temp2[0].toString()
-		var chart_temp, chart_gp;
-		var temperature = [], gp = [], upload = [];
-		var data = {
+	var temp1 = $("#chart-date-deb").val().split('-');
+	var temp2 = $("#chart-date-fin").val().split('-');
+	var datedeb = parseInt(temp1[2]).toString()+"/"+parseInt(temp1[1]).toString()+"/"+temp1[0].toString();
+	var datefin = parseInt(temp2[2]).toString()+"/"+parseInt(temp2[1]).toString()+"/"+temp2[0].toString();		
+	var data = {
 		'data_from': data_from,
-			'datedeb': datedeb,
-			'datefin': datefin
-			}
-		$.post('/getDataResist/', data, function(data) {
-	      $("#container .sk-circle").css({"visibility": "hidden"});
-	      if(data.length > 0) {
-	      	
-			data.sort((function (a, b) { return new Date(a.timestamp) - new Date(b.timestamp) }));
-	      	upload = [];
+		'datedeb': datedeb,
+		'datefin': datefin			
+	}
+	$.post('/getDataResist/', data, function(data) {
+	  $("#container .sk-circle").css({"visibility": "hidden"});
+	  if(data.length > 0) {
+		
+		data.sort((function (a, b) { return new Date(a.timestamp) - new Date(b.timestamp) }));
+		upload = [];
+		
+		temperature['resist_ant'] = [];
+		temperature['induct_ant'] = [];
+		temperature['resist_swt'] = [];
+		gp['test_final'] = [];
+		$.each(data, function (i, item) {
 			
-			temperature['resist_ant'] = [];
-			temperature['induct_ant'] = [];
-			temperature['resist_swt'] = [];
-			/*gp['induct_ant'] = [];
-			gp['test_cam'] = [];
-			gp['pres_con'] = [];
-			gp['test_ok'] = [];
-			gp['test_notOk'] = [];*/
-			gp['test_final'] = [];
-
-			$.each(data, function (i, item) {
-				
-				temperature['resist_ant'].push(parseInt(item.VAL_Resistance_antenne));
-		      	temperature['induct_ant'].push(parseInt(item.VAL_inductance_antenne));
-				temperature['resist_swt'].push(parseInt(item.VAL_resistance_switch));
-		      	/*gp['induct_ant'].push(parseInt(item.inductance_antenne));
-		      	gp['test_cam'].push(parseInt(item.test_camera));
-				gp['pres_con'].push(parseInt(item.test_presence_connecteur));*/
-						//var boolint=+item.Test_Final;
-						//gp['test_final'].push(boolint);
-				gp['test_final'].push(item.Test_Final);
-				/*if (parseInt(item.Test_Final)==1)
-				if (boolint===1)
-				gp['test_ok'].push(boolint);//parseInt(item.Test_Final));
-				else
-		      	gp['test_notOk'].push(boolint);//parseInt(item.Test_Final));
-				console.log(item.Date+' ------ '+boolint+" === "+item.Test_Final)*/
-				upload.push(item.Date+' '+item.Time);
-				
-			});
+			temperature['resist_ant'].push(parseInt(item.VAL_Resistance_antenne));
+			temperature['induct_ant'].push(parseInt(item.VAL_inductance_antenne));
+			temperature['resist_swt'].push(parseInt(item.VAL_resistance_switch));
+			gp['test_final'].push(item.Test_Final);
+			upload.push(item.Date+' '+item.Time);
 			
-			try {
-				chart_temp.clear();
-				chart_gp.clear();
-				chart_temp.destroy();
-				chart_gp.destroy();
-			}
-			catch(err) {
-				console.log(err);
-			}
-
-			$("iframe").remove();
-
-			var ctx = document.getElementById('temp-chart').getContext('2d');
-			var chart_temp = new Chart(ctx, {
-			    // The type of chart we want to create
-			    type: 'line',
-
-			    // The data for our dataset
-			    data: {
-			        labels: upload,
-			        datasets: [{
-			            label: "Resist_Ant",
-			            borderColor: '#F4511E',
-			            data: temperature['resist_ant'],
-						fill: false,
-			        }, {
-			            label: "Resist_Swi",
-			            borderColor: '#FBC02D',
-			            data: temperature['resist_swt'],
-						fill: false,
-			        }, {
-			            label: "Induct_Ant",
-			            borderColor: '#AFB42B',
-			            data: temperature['induct_ant'],
-						fill: false,
-			        }]
-			    },
-
-			    // Configuration options go here
-			    options:  {
-					responsive: true,
-					title: {
-						display: true,
-						text: 'Antenne/Switch'
-					},
-					tooltips: {
-						mode: 'index',
-						intersect: false,
-					},
-					hover: {
-						mode: 'nearest',
-						intersect: true
-					},
-					scales: {
-						xAxes: [{
-							display: true,
-							scaleLabel: {
-								display: true,
-								labelString: 'Upload Time'
-							}
-						}],
-						yAxes: [{
-							display: true,
-							scaleLabel: {
-								display: true,
-								labelString: 'Values'
-							}
-						}]
-					}
-				}
-			});
-			var ctx = document.getElementById('gp-chart').getContext('2d');
-			var chart_gp = new Chart(ctx, {
-			    // The type of chart we want to create
-			    type: 'line',
-
-			    // The data for our dataset   
-			    data: {
-			        labels: upload,
-			        datasets: [{
-			            label: "Test Final ",
-			            backgroundColor: 'transparent',//#BCAAA4',
-			            borderColor: '#CA00CA',
-			            borderWidth: 2,
-			            data: gp['test_final'],
-			        }/*, {
-			            label: "Test Final Not Ok",
-			            backgroundColor: "#B0BEC5",
-			            borderColor: '#607D8B',
-			            borderWidth: 1,
-			            data: gp['test_notOk'],
-			        }, {
-			            label: "Pres_Connect",
-			            backgroundColor: "#0097A7",
-			            borderColor: '#607D8B',
-			            borderWidth: 1,
-			            data: gp['pres_con'],
-			        }*/]
-			    },
-
-			    // Configuration options go here
-			    options:  {
-					responsive: true,
-					legend: {
-						position: 'top',
-					},
-					title: {
-						display: true,
-						text: 'Test Final'
-					},
-					tooltips: {
-						mode: 'index',
-						intersect: false,
-					},
-					hover: {
-						mode: 'nearest',
-						intersect: true
-					},
-					scales: {
-						xAxes: [{
-							display: true,
-							scaleLabel: {
-								display: true,
-								labelString: 'Upload Time'
-							}
-						}],
-						yAxes: [{
-							display: true,
-							scaleLabel: {
-								display: true,
-								labelString: 'Values'
-							}
-						}]
-					}
-				}
-			});
+		});
+		
+		try {
 		}
-		else {
-
+		catch(err) {
+			console.log(err);
 		}
-		}).fail(function(error) {
-	    	console.log(error);
-	      $("#container .sk-circle").css({"visibility": "hidden"});
-	      $('.alert-danger').text('Could not get data').show();
-	      setTimeout(function() {
-	        $('.alert-danger').hide();
-	      }, 1500);
-	    });
+		$("iframe").remove();
+		var ctx = document.getElementById('temp-chart').getContext('2d');
+		var chart_temp = new Chart(ctx, {
+			type: 'line',
+			data: {
+				labels: upload,
+				datasets: [{
+					label: "Resist_Ant",
+					borderColor: '#F4511E',
+					data: temperature['resist_ant'],
+					fill: false,
+				}, {
+					label: "Resist_Swi",
+					borderColor: '#FBC02D',
+					data: temperature['resist_swt'],
+					fill: false,
+				}, {
+					label: "Induct_Ant",
+					borderColor: '#AFB42B',
+					data: temperature['induct_ant'],
+					fill: false,
+				}]
+			},
+			options:  {
+				responsive: true,
+				title: {
+					display: true,
+					text: 'Antenne/Switch'
+				},
+				tooltips: {
+					mode: 'index',
+					intersect: false,
+				},
+				hover: {
+					mode: 'nearest',
+					intersect: true
+				},
+				scales: {
+					xAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Upload Time'
+						}
+					}],
+					yAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Values'
+						}
+					}]
+				}
+			}
+		});
+		var ctx = document.getElementById('gp-chart').getContext('2d');
+		var chart_gp = new Chart(ctx, {
+			type: 'line',
+			data: {
+				labels: upload,
+				datasets: [{
+					label: "Test Final ",
+					backgroundColor: 'transparent',//#BCAAA4',
+					borderColor: '#CA00CA',
+					borderWidth: 2,
+					data: gp['test_final'],
+				}]
+			},
+			options:  {
+				responsive: true,
+				legend: {
+					position: 'top',
+				},
+				title: {
+					display: true,
+					text: 'Test Final'
+				},
+				tooltips: {
+					mode: 'index',
+					intersect: false,
+				},
+				hover: {
+					mode: 'nearest',
+					intersect: true
+				},
+				scales: {
+					xAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Upload Time'
+						}
+					}],
+					yAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Values'
+						}
+					}]
+				}
+			}
+		});
+	}
+	else {
+	}
+	}).fail(function(error) {
+		console.log(error);
+	  $("#container .sk-circle").css({"visibility": "hidden"});
+	  $('.alert-danger').text('Could not get data').show();
+	  setTimeout(function() {
+		$('.alert-danger').hide();
+	  }, 1500);
+	});
+		
+});		
 </script>
