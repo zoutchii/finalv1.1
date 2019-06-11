@@ -115,7 +115,7 @@
 
 <script>
 	$("#console-stat .sk-circle").css({"visibility": "visible"});
-	$.post('/console/getresists', function(data) {
+	$.post('/console/getresists1', function(data) {
 		console.log(data.length);
 		$("#devices-stat .sk-circle").css({"visibility": "hidden"});
 		$("#devices-stat .data").text(data.length);
@@ -127,7 +127,7 @@
 		}, 1500);
 	});
 		
-	$.post('/console/getclients', function(data) {
+	$.post('/console/getclients1', function(data) {
 		$("#clients-stat .sk-circle").css({"visibility": "hidden"});
 		$("#clients-stat .data").text(data.length);
 	}).fail(function(error) {
@@ -137,7 +137,7 @@
 			$('.alert-danger').hide();
 		}, 1500);
 	});
-	$.post('/console/getproducts', function(data) {
+	$.post('/console/getproducts1', function(data) {
 		$("#linked-stat .sk-circle").css({"visibility": "hidden"});
 		$("#linked-stat .data").text(data.length);
 	}).fail(function(error) {
