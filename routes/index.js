@@ -710,9 +710,69 @@ router.post('/getdeviceData/', (req, res) => {
 	}).catch(error => {
 		return res.status(403).send('Could Not Get Parameters');
 	})	
-	
-	
-	
+router.post('/console/getresists1', (req, res) => {
+if (req.session.userId) {		
+		var docRef = db1.ref("TEST1");
+		docRef.once("value", function(snapshot) {
+			var obj=[];
+			snapshot.forEach(function(data) {
+				obj.push(data.val());
+			});		  
+			res.setHeader('Content-Type', 'application/json');
+			res.status(200);
+			res.json(obj);
+			return res;		
+		}).catch(error => {
+			return res.status(400).send('error');
+		});
+		
+	}
+	else {
+		return res.status(403).send('UNAUTHORIZED REQUEST!');
+	}
+})
+router.post('/console/getresists2', (req, res) => {
+if (req.session.userId) {		
+		var docRef = db1.ref("valid1");
+		docRef.once("value", function(snapshot) {
+			var obj=[];
+			snapshot.forEach(function(data) {
+				obj.push(data.val());
+			});		  
+			res.setHeader('Content-Type', 'application/json');
+			res.status(200);
+			res.json(obj);
+			return res;		
+		}).catch(error => {
+			return res.status(400).send('error');
+		});
+		
+	}
+	else {
+		return res.status(403).send('UNAUTHORIZED REQUEST!');
+	}
+})	
+router.post('/console/getresists', (req, res) => {
+if (req.session.userId) {		
+		var docRef = db1.ref("failed1");
+		docRef.once("value", function(snapshot) {
+			var obj=[];
+			snapshot.forEach(function(data) {
+				obj.push(data.val());
+			});		  
+			res.setHeader('Content-Type', 'application/json');
+			res.status(200);
+			res.json(obj);
+			return res;		
+		}).catch(error => {
+			return res.status(400).send('error');
+		});
+		
+	}
+	else {
+		return res.status(403).send('UNAUTHORIZED REQUEST!');
+	}
+})	
 	
 })
 
