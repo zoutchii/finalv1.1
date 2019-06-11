@@ -238,7 +238,7 @@ if (req.session.userId) {
 })
 router.post('/console/getresists', (req, res) => {
 if (req.session.userId) {		
-		var docRef = db1.ref("Resistance");
+		var docRef = db1.ref("Machine1");
 		docRef.once("value", function(snapshot) {
 			var obj=[];
 			snapshot.forEach(function(data) {
@@ -548,36 +548,24 @@ router.post('/getInfoResistance/', (req, res) => {
 })
 /* --------------------------------------------------------------------- */
 router.post('/getDataResist/', (req, res) => {
-	var d = [];
-	var data_from=req.body.data_from;
-	var first=req.body.datedeb;
-	var second=req.body.datefin;
-	var firstDate = new Date(first.split('/')[2],first.split('/')[1],first.split('/')[0]);
-	var secondDate = new Date(second.split('/')[2],second.split('/')[1],second.split('/')[0]);
+	var d = [];	
 	var docRef1 = db1.ref("Machine1");
-	if (data_from=='2') docRef1 = db1.ref("Machine2");
 	docRef1.once("value", function(snapshot) {
 		snapshot.forEach(function(doc) {
-			var third=doc.val().Date;
-			if (typeof(third) != 'undefined')
-			{			
-			var thirdDate = new Date(third.split('/')[2],third.split('/')[1],third.split('/')[0]);
-			if (thirdDate>=firstDate && thirdDate<=secondDate) d.push(doc.val());
-			}
+			d.push(doc.val());
 		});
 		res.setHeader('Content-Type', 'application/json');
 		return res.status(200).send(d);
 	}).catch(error => {
 		return res.status(403).send('Could Not Get Devices');
 	})
-	return true;
 })	
 /* --------------------------------------------------------------------- */
 router.post('/getDetailResist/', (req, res) => {
 	var d = [];	
 	var devRef = req.body.resist_ref;
 console.log('--------------2-'+devRef);
-	var docRef1 = db1.ref("Resistance");
+	var docRef1 = db1.ref("Machine1");
 	docRef1.once("value", function(snapshot) {
 		var i=0;
 		snapshot.forEach(function(doc) {
@@ -710,7 +698,10 @@ router.post('/getdeviceData/', (req, res) => {
 	}).catch(error => {
 		return res.status(403).send('Could Not Get Parameters');
 	})	
-
+	
+	
+	
+	
 })
 
 router.post('/getdatedata/', (req, res) => {
@@ -1034,25 +1025,7 @@ router.post('/statistic/', (req, res) => {
 });
 /* --------------------------------------------------------------------- */
 router.post('/services/', (req, res) => {
-if (req.session.userId) {		
-		var docRef = db1.ref("TEST1");
-		docRef.once("value", function(snapshot) {
-			var obj=[];
-			snapshot.forEach(function(data) {
-				obj.push(data.val());
-			});		  
-			res.setHeader('Content-Type', 'application/json');
-			res.status(200);
-			res.json(obj);
-			return res;		
-		}).catch(error => {
-			return res.status(400).send('error');
-		});
-		
-	}
-	else {
-		return res.status(403).send('UNAUTHORIZED REQUEST!');
-	}
+	res.render('templates/services');
 });
 /* --------------------------------------------------------------------- */
 router.post('/products/', (req, res) => {
