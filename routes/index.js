@@ -238,7 +238,7 @@ if (req.session.userId) {
 })
 router.post('/console/getresists', (req, res) => {
 if (req.session.userId) {		
-		var docRef = db1.ref("Resistance");
+		var docRef = db1.ref("TEST1");
 		docRef.once("value", function(snapshot) {
 			var obj=[];
 			snapshot.forEach(function(data) {
@@ -268,7 +268,7 @@ router.post('/console/clients', (req, res) => {
 });
 router.post('/console/getclients', (req, res) => {
 	if (req.session.userId) {
-		var docRef = db1.ref("users");
+		var docRef = db1.ref("valid1");
 		docRef.once("value", function(snapshot) {
 			var obj=[];
 			snapshot.forEach(function(data) {
@@ -451,7 +451,7 @@ router.post('/console/addlink', (req, res) => {
 })
 router.post('/console/getproducts', (req, res) => {
 	if (req.session.userId) {
-		var docRef = db1.ref("linked_device");
+		var docRef = db1.ref("failed1");
 		docRef.once("value", function(snapshot) {
 			var obj=[];
 			snapshot.forEach(function(data) {
