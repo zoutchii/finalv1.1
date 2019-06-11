@@ -528,7 +528,7 @@ router.post('/getInfoResistance/', (req, res) => {
 	var second=req.body.datefin;
 	var firstDate = new Date(first.split('/')[2],first.split('/')[1],first.split('/')[0]);
 	var secondDate = new Date(second.split('/')[2],second.split('/')[1],second.split('/')[0]);
-	var docRef = db1.ref("Resistance");
+	var docRef = db1.ref("Machine1");
 	if (data_from=='2') docRef = db1.ref("Machine2");
 	docRef.once("value", function(snapshot) {
 		snapshot.forEach(function(doc) {
