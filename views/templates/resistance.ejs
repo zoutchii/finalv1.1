@@ -105,6 +105,14 @@
 				<tr>
 					<th class="voltage-current">Date</th>
 					<th class="voltage-current">Time</th>
+					<th class="voltage-current">Test presence connecteur</th>
+					<th class="voltage-current">Test camera</th>
+					<th class="voltage-current">Resistance switch</th>
+					<th class="voltage-current">VAL resistance switch</th>
+					<th class="voltage-current">Resistance antenne</th>
+					<th class="voltage-current">VAL Resistance antenne</th>
+					<th class="voltage-current">inductance antenne</th>
+					<th class="voltage-current">VAL inductance antenne</th>
 
 				</tr>
 			</thead>
@@ -206,14 +214,7 @@ $(document ).ready(function() {
 				    	'<tr class="dev-data">\
 							<td class="voltage-current">'+item.Date+'</td>\
 							<td class="voltage-current">'+item.Time+'</td>\
-							<td class="voltage-current">'+item.Test présence connecteur+'</td>\
-							<td class="voltage-current">'+item.Test caméra+'</td>\
-							<td class="voltage-current">'+item.Résistance switch+'</td>\
-							<td class="voltage-current">'+item.VAL résistance switch+'</td>\
-							<td class="voltage-current">'+item.Résistance antenne+'</td>\
-							<td class="voltage-current">'+item.VAL résistance antenne+'</td>\
-							<td class="voltage-current">'+item.Inductance antenne+'</td>\
-							<td class="voltage-current">'+item.VAL inductance antenne+'</td>\
+
 						</tr>');
 				});
 		      }
