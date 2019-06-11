@@ -115,7 +115,7 @@
 
 <script>
 	$("#console-stat .sk-circle").css({"visibility": "visible"});
-	$.post('/console/getresists1', function(data) {
+	$.post('/services/', function(data) {
 		console.log(data.length);
 		$("#devices-stat .sk-circle").css({"visibility": "hidden"});
 		$("#devices-stat .data").text(data.length);
