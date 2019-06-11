@@ -548,28 +548,29 @@ router.post('/getInfoResistance/', (req, res) => {
 })
 /* --------------------------------------------------------------------- */
 router.post('/getDataResist/', (req, res) => {
-	var d = [];
+var _ref = [];
 	var data_from=req.body.data_from;
 	var first=req.body.datedeb;
 	var second=req.body.datefin;
 	var firstDate = new Date(first.split('/')[2],first.split('/')[1],first.split('/')[0]);
 	var secondDate = new Date(second.split('/')[2],second.split('/')[1],second.split('/')[0]);
-	var docRef1 = db1.ref("Machine1");
-	if (data_from=='2') docRef1 = db1.ref("Machine2");
-	docRef1.once("value", function(snapshot) {
+	var docRef = db1.ref("Machine1");
+	if (data_from=='2') docRef = db1.ref("Machine2");
+	docRef.once("value", function(snapshot) {
 		snapshot.forEach(function(doc) {
 			var third=doc.val().Date;
 			if (typeof(third) != 'undefined')
 			{			
 			var thirdDate = new Date(third.split('/')[2],third.split('/')[1],third.split('/')[0]);
-			if (thirdDate>=firstDate && thirdDate<=secondDate) d.push(doc.val());
+			if (thirdDate>=firstDate && thirdDate<=secondDate) _ref.push(doc.val());
 			}
 		});
-		res.setHeader('Content-Type', 'application/json');
-		return res.status(200).send(d);
-	}).catch(error => {
-		return res.status(403).send('Could Not Get Devices');
-	})
+			res.setHeader('Content-Type', 'application/json');
+			return res.status(200).send(_ref);//d);
+		}).catch(error => {
+			return res.status(403).send('Could Not Get Devices');
+		})
+		return true;
 })	
 /* --------------------------------------------------------------------- */
 router.post('/getDetailResist/', (req, res) => {
