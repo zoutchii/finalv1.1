@@ -24,6 +24,7 @@
   background: #c2f0f0;
   cursor: pointer;
 }
+
 #device_select {
 	margin: 15px 0px;
 	text-align: center;
@@ -52,18 +53,22 @@
 	border-radius: 8px;
 	box-shadow: 3px 5px 3px #80CBC4;
 }
+
+
 /* Extra small devices (portrait phones, less than 576px) */
 @media screen and (max-width: 575.98px) {
 	.voltage-current, .temperature {
 		display: none;
 	}
 }
+
 /* Small devices (landscape phones, 576px and up) */
 @media screen and (min-width: 576px) and (max-width: 767.98px) {
 	.voltage-current, .temperature {
 		display: none;
 	}
 }
+
 /* Medium devices (tablets, 768px and up) */
 @media screen and (min-width: 768px) and (max-width: 991.98px) {
 	.voltage-current {
@@ -73,18 +78,21 @@
 		display: ;
 	}
 }
+
 /* Large devices (desktops, 992px and up) */
 @media screen and (min-width: 992px) and (max-width: 1199.98px) {
 	.voltage-current, .temperature {
 		display: ;
 	}
 }
+
 /* Extra large devices (large desktops, 1200px and up) */
 @media screen and (min-width: 1200px) {
 	.voltage-current, .temperature {
 		display: ;
 	}
 }
+
 </style>
 
 <div id="container">
@@ -113,7 +121,6 @@
 					<th class="voltage-current">VAL Resistance antenne</th>
 					<th class="voltage-current">inductance antenne</th>
 					<th class="voltage-current">VAL inductance antenne</th>
-
 				</tr>
 			</thead>
 			<tbody>
@@ -169,6 +176,7 @@ function findMatch(string, index) {
 		});*/
 		
 $(document ).ready(function() {
+
     //$("#main > #container > .sk-circle").css({"visibility": "visible"});	
 	$("#chart-device_select input[type=date]").attr({'max': new Date().toJSON().split('T')[0]});
 	$("#device_select #update-chart").click(function(event) {
@@ -214,13 +222,21 @@ $(document ).ready(function() {
 				    	'<tr class="dev-data">\
 							<td class="voltage-current">'+item.Date+'</td>\
 							<td class="voltage-current">'+item.Time+'</td>\
-
+							<td class="voltage-current">'+item.test_presence_connecteur+'</td>\
+							<td class="voltage-current">'+item.test_camera+'</td>\
+							<td class="voltage-current">'+item.Resistance_switch+'</td>\
+							<td class="voltage-current">'+item.VAL_resistance_switch+'</td>\
+							<td class="voltage-current">'+item.Resistance_antenne+'</td>\
+							<td class="voltage-current">'+item.VAL_Resistance_antenne+'</td>\
+							<td class="voltage-current">'+item.inductance_antenne+'</td>\
+							<td class="voltage-current">'+item.VAL_inductance_antenne+'</td>\
 						</tr>');
 				});
 		      }
 		      else {
 		        
 		      }
+
 		    }).fail(function(error) {
 		      $("#container .sk-circle").css({"visibility": "hidden"});
 		      $('.alert-danger').text('Could not get data').show();
@@ -232,4 +248,7 @@ $(document ).ready(function() {
 	   $("#container > .sk-circle").css({"visibility": "hidden"});
 	   
 });
+
 </script>
+
+
