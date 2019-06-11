@@ -2136,13 +2136,6 @@ router.get('**', (req, res) => {
 })
 */
 
-router.get('**', (req, res) => {
-	return res.redirect('https://smart-test-a2se.herokuapp.com')
-})
-
-/* --------------------------------------------------------------------- */
-module.exports = router;
-
 
 router.get('**', (req, res) => {
 	return res.redirect('https://smart-test-a2se.herokuapp.com/')
