@@ -1033,6 +1033,70 @@ router.post('/transformer/', (req, res) => {
 	res.render('templates/transformer');
 });
 /* --------------------------------------------------------------------- */
+router.post('/statistic/testTotal', (req, res) => {
+if (req.session.userId) {		
+		var docRef = db1.ref("Test_total_machine1");
+		docRef.once("value", function(snapshot) {
+			var obj=[];
+			snapshot.forEach(function(data) {
+				obj.push(data.val());
+			});		  
+			res.setHeader('Content-Type', 'application/json');
+			res.status(200);
+			res.json(obj);
+			return res;		
+		}).catch(error => {
+			return res.status(400).send('error');
+		});
+		
+	}
+	else {
+		return res.status(403).send('UNAUTHORIZED REQUEST!');
+	}
+})
+router.post('/statistic/testValid', (req, res) => {
+if (req.session.userId) {		
+		var docRef = db1.ref("Test_valid_machine1");
+		docRef.once("value", function(snapshot) {
+			var obj=[];
+			snapshot.forEach(function(data) {
+				obj.push(data.val());
+			});		  
+			res.setHeader('Content-Type', 'application/json');
+			res.status(200);
+			res.json(obj);
+			return res;		
+		}).catch(error => {
+			return res.status(400).send('error');
+		});
+		
+	}
+	else {
+		return res.status(403).send('UNAUTHORIZED REQUEST!');
+	}
+})
+router.post('/statistic/testFailed', (req, res) => {
+if (req.session.userId) {		
+		var docRef = db1.ref("Test_failed_machine1");
+		docRef.once("value", function(snapshot) {
+			var obj=[];
+			snapshot.forEach(function(data) {
+				obj.push(data.val());
+			});		  
+			res.setHeader('Content-Type', 'application/json');
+			res.status(200);
+			res.json(obj);
+			return res;		
+		}).catch(error => {
+			return res.status(400).send('error');
+		});
+		
+	}
+	else {
+		return res.status(403).send('UNAUTHORIZED REQUEST!');
+	}
+})
+
 router.post('/statistic/', (req, res) => {
 	res.render('templates/statistic');
 });
@@ -1062,27 +1126,6 @@ router.post('/account/', (req, res) => {
 	res.render('templates/account');
 });
 /* --------------------------------------------------------------------- */
-router.post('/statistic/', (req, res) => {
-if (req.session.userId) {		
-		var docRef = db1.ref("Test_total_machine1");
-		docRef.once("value", function(snapshot) {
-			var obj=[];
-			snapshot.forEach(function(data) {
-				obj.push(data.val());
-			});		  
-			res.setHeader('Content-Type', 'application/json');
-			res.status(200);
-			res.json(obj);
-			return res;		
-		}).catch(error => {
-			return res.status(400).send('error');
-		});
-		
-	}
-	else {
-		return res.status(403).send('UNAUTHORIZED REQUEST!');
-	}
-})
 
 
 
