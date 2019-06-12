@@ -137,7 +137,7 @@
 		}, 1500);
 	});
 		
-	/*$.post('/console/getclients', function(data) {
+	$.post('/console/getclients', function(data) {
 		$("#clients-stat .sk-circle").css({"visibility": "hidden"});
 		$("#clients-stat .data").text(data.length);
 	}).fail(function(error) {
@@ -146,7 +146,7 @@
 		setTimeout(function() {
 			$('.alert-danger').hide();
 		}, 1500);
-	});*/
+	});
 
 	$.post('/console/getproducts', function(data) {
 		$("#linked-stat .sk-circle").css({"visibility": "hidden"});
