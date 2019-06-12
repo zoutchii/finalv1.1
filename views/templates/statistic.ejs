@@ -318,7 +318,7 @@ $("#chart-device_select #update-chart").click(function(event) {
 		  return ;
 	}
 	$("#console-stat .sk-circle").css({"visibility": "visible"});
-	$.post('/console/getresists', function(data) {
+	$.post('/statistic/', function(data) {
 		console.log(data.length);
 		$("#devices-stat .sk-circle").css({"visibility": "hidden"});
 		$("#devices-stat .data").text(data.length);
