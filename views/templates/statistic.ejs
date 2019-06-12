@@ -318,7 +318,7 @@ $("#chart-device_select #update-chart").click(function(event) {
 		  return ;
 	}
 	$("#console-stat .sk-circle").css({"visibility": "visible"});
-	$.post('/statistic/', function(data) {
+	$.post('/statistic/testTotal', function(data) {
 		console.log(data.length);
 		$("#devices-stat .sk-circle").css({"visibility": "hidden"});
 		$("#devices-stat .data").text(data.length);
@@ -330,7 +330,7 @@ $("#chart-device_select #update-chart").click(function(event) {
 		}, 1500);
 	});
 		
-	$.post('/statistic/', function(data) {
+	$.post('/statistic/testValid', function(data) {
 		$("#clients-stat .sk-circle").css({"visibility": "hidden"});
 		$("#clients-stat .data").text(data.length);
 	}).fail(function(error) {
@@ -340,7 +340,7 @@ $("#chart-device_select #update-chart").click(function(event) {
 			$('.alert-danger').hide();
 		}, 1500);
 	});
-	$.post('/statistic/', function(data) {
+	$.post('/statistic/testFailed', function(data) {
 		$("#linked-stat .sk-circle").css({"visibility": "hidden"});
 		$("#linked-stat .data").text(data.length);
 	}).fail(function(error) {
