@@ -1056,7 +1056,7 @@ if (req.session.userId) {
 })
 router.post('/statistic/testValid', (req, res) => {
 if (req.session.userId) {
-		var obj = [];
+var _ref = [];
 	var data_from=req.body.data_from;
 	var first=req.body.datedeb;
 	var second=req.body.datefin;
@@ -1064,27 +1064,21 @@ if (req.session.userId) {
 	var secondDate = new Date(second.split('/')[2],second.split('/')[1],second.split('/')[0]);
 	var docRef = db1.ref("Test_valid_machine1");
 	if (data_from=='2') docRef = db1.ref("Machine2");
-		docRef.once("value", function(snapshot) {
-			snapshot.forEach(function(data) {
-				var third=data.val().Date;
+	docRef.once("value", function(snapshot) {
+		snapshot.forEach(function(doc) {
+			var third=doc.val().Date;
 			if (typeof(third) != 'undefined')
-				{			
+			{			
 			var thirdDate = new Date(third.split('/')[2],third.split('/')[1],third.split('/')[0]);
-			if (thirdDate>=firstDate && thirdDate<=secondDate) obj.push(data.val());
-				}
-			});		  
-			res.setHeader('Content-Type', 'application/json');
-			res.status(200);
-			res.json(obj);
-			return res;		
-		}).catch(error => {
-			return res.status(400).send('error');
+			if (thirdDate>=firstDate && thirdDate<=secondDate) _ref.push(doc.val());
+			}
 		});
-		
-	}
-	else {
-		return res.status(403).send('UNAUTHORIZED REQUEST!');
-	}
+			res.setHeader('Content-Type', 'application/json');
+			return res.status(200).send(_ref);//d);
+		}).catch(error => {
+			return res.status(403).send('Could Not Get Devices');
+		})
+		return true;
 })
 router.post('/statistic/testFailed', (req, res) => {
 if (req.session.userId) {		
