@@ -1055,12 +1055,23 @@ if (req.session.userId) {
 	}
 })
 router.post('/statistic/testValid', (req, res) => {
-if (req.session.userId) {		
-		var docRef = db1.ref("Test_valid_machine1");
+if (req.session.userId) {
+		var obj = [];
+	var data_from=req.body.data_from;
+	var first=req.body.datedeb;
+	var second=req.body.datefin;
+	var firstDate = new Date(first.split('/')[2],first.split('/')[1],first.split('/')[0]);
+	var secondDate = new Date(second.split('/')[2],second.split('/')[1],second.split('/')[0]);
+	var docRef = db1.ref("Test_valid_machine1");
+	if (data_from=='2') docRef = db1.ref("Machine2");
 		docRef.once("value", function(snapshot) {
-			var obj=[];
 			snapshot.forEach(function(data) {
-				obj.push(data.val());
+				var third=data.val().Date;
+			if (typeof(third) != 'undefined')
+				{			
+			var thirdDate = new Date(third.split('/')[2],third.split('/')[1],third.split('/')[0]);
+			if (thirdDate>=firstDate && thirdDate<=secondDate) obj.push(data.val());
+				}
 			});		  
 			res.setHeader('Content-Type', 'application/json');
 			res.status(200);
