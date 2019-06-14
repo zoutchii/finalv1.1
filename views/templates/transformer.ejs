@@ -103,16 +103,9 @@
 		<table>
 			<thead>
 				<tr>
-					<th class="voltage-current">Date</th>
-					<th class="voltage-current">Time</th>
-					<th class="voltage-current">Test presence connecteur</th>
-					<th class="voltage-current">Test camera</th>
-					<th class="voltage-current">Resistance switch</th>
-					<th class="voltage-current">VAL resistance switch</th>
-					<th class="voltage-current">Resistance antenne</th>
-					<th class="voltage-current">VAL Resistance antenne</th>
-					<th class="voltage-current">inductance antenne</th>
-					<th class="voltage-current">VAL inductance antenne</th>
+					<th class="voltage-current">Test Total</th>
+					<th class="voltage-current">Test OK</th>
+					<th class="voltage-current">Test NOK</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -211,16 +204,9 @@ $(document ).ready(function() {
 		        $.each(data, function (i, item) {
 				    $('#device_data table tbody').append(
 				    	'<tr class="dev-data">\
-							<td class="voltage-current">'+item.Date+'</td>\
-							<td class="voltage-current">'+item.Time+'</td>\
-							<td class="voltage-current">'+item.test_presence_connecteur+'</td>\
-							<td class="voltage-current">'+item.test_camera+'</td>\
-							<td class="voltage-current">'+item.Resistance_switch+'</td>\
-							<td class="voltage-current">'+item.VAL_resistance_switch+'</td>\
-							<td class="voltage-current">'+item.Resistance_antenne+'</td>\
-							<td class="voltage-current">'+item.VAL_Resistance_antenne+'</td>\
-							<td class="voltage-current">'+item.inductance_antenne+'</td>\
-							<td class="voltage-current">'+item.VAL_inductance_antenne+'</td>\
+							<td class="voltage-current">'+item.Test_Total+'</td>\
+							<td class="voltage-current">'+item.Test_OK+'</td>\
+							<td class="voltage-current">'+item.Test_NOK+'</td>\
 						</tr>');
 				});
 		      }
