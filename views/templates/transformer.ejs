@@ -203,7 +203,7 @@ $(document ).ready(function() {
 			'datedeb': datedeb,
 			'datefin': datefin
 		}
-	   		$.post('/getInfoResistance/', data, function(data) {
+	   		$.post('/getInfoTest/', data, function(data) {
 	   		  $('#device_data table tbody').html('');
 		      $("#container .sk-circle").css({"visibility": "hidden"});
 		      if(data.length > 0) {
