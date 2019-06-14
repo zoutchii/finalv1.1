@@ -112,6 +112,7 @@
 			<thead>
 				<tr>
 					<th class="voltage-current">Date</th>
+					<th class="voltage-current">Time</th>
 					<th class="voltage-current">Test presence connecteur</th>
 					<th class="voltage-current">Test camera</th>
 					<th class="voltage-current">Resistance switch</th>
@@ -220,6 +221,7 @@ $(document ).ready(function() {
 				    $('#device_data table tbody').append(
 				    	'<tr class="dev-data">\
 							<td class="voltage-current">'+item.Date+'</td>\
+							<td class="voltage-current">'+item.Time+'</td>\
 							<td class="voltage-current">'+item.test_presence_connecteur+'</td>\
 							<td class="voltage-current">'+item.test_camera+'</td>\
 							<td class="voltage-current">'+item.Resistance_switch+'</td>\
