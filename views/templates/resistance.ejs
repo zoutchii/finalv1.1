@@ -121,6 +121,9 @@
 					<th class="voltage-current">VAL Resistance antenne</th>
 					<th class="voltage-current">inductance antenne</th>
 					<th class="voltage-current">VAL inductance antenne</th>
+					<th class="voltage-current">Test Total</th>
+					<th class="voltage-current">Test OK</th>
+					<th class="voltage-current">Test NOK</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -230,6 +233,10 @@ $(document ).ready(function() {
 							<td class="voltage-current">'+item.VAL_Resistance_antenne+'</td>\
 							<td class="voltage-current">'+item.inductance_antenne+'</td>\
 							<td class="voltage-current">'+item.VAL_inductance_antenne+'</td>\
+							<td class="voltage-current">'+item.Test_Total+'</td>\
+							<td class="voltage-current">'+item.Test_OK+'</td>\
+							<td class="voltage-current">'+item.Test_NOK+'</td>\
+							
 						</tr>');
 				});
 		      }
