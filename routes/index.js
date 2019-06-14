@@ -1034,26 +1034,31 @@ router.post('/transformer/', (req, res) => {
 });
 /* --------------------------------------------------------------------- */
 router.post('/statistic/testTotal', (req, res) => {
-if (req.session.userId) {		
+var obj = [];
+	var data_from=req.body.data_from;
+	var first=req.body.datedeb;
+	var second=req.body.datefin;
+	var firstDate = new Date(first.split('/')[2],parseInt(first.split('/')[1])-1,first.split('/')[0]);
+	var secondDate = new Date(second.split('/')[2],parseInt(second.split('/')[1])-1,second.split('/')[0]);		
 		var docRef = db1.ref("Test_total_machine1");
+	if (data_from=='2') docRef = db1.ref("Machine2");
 		docRef.once("value", function(snapshot) {
-			var obj=[];
-			snapshot.forEach(function(data) {
-				obj.push(data.val());
-			});		  
-			res.setHeader('Content-Type', 'application/json');
-			res.status(200);
-			res.json(obj);
-			return res;		
-		}).catch(error => {
-			return res.status(400).send('error');
-		});
+			snapshot.forEach(function(doc) {
+				var third=doc.val().Date;
 		
-	}
-	else {
-		return res.status(403).send('UNAUTHORIZED REQUEST!');
-	}
-})
+		if (typeof(third) != 'undefined')
+		{
+		var thirdDate = new Date(third.split('/')[2],parseInt(third.split('/')[1])-1,third.split('/')[0]);
+		if (thirdDate>=firstDate && thirdDate<=secondDate) obj.push(doc.val());
+		}
+			});		  
+	res.setHeader('Content-Type', 'application/json');
+		return res.status(200).send(obj);//d);
+	}).catch(error => {
+		return res.status(403).send('Could Not Get Devices');
+	})
+	return true;
+})	
 router.post('/statistic/testValid', (req, res) => {
 if (req.session.userId) {		
 		var docRef = db1.ref("Test_valid_machine1");
