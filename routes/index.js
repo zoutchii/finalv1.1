@@ -547,6 +547,32 @@ router.post('/getInfoResistance/', (req, res) => {
 		return true;
 })
 /* --------------------------------------------------------------------- */
+router.post('/getInfoTest/', (req, res) => {
+	var _ref = [];
+	var data_from=req.body.data_from;
+	var first=req.body.datedeb;
+	var second=req.body.datefin;
+	var firstDate = new Date(first.split('/')[2],first.split('/')[1],first.split('/')[0]);
+	var secondDate = new Date(second.split('/')[2],second.split('/')[1],second.split('/')[0]);
+	var docRef = db1.ref("TestMachine1");
+	if (data_from=='2') docRef = db1.ref("Machine2");
+	docRef.once("value", function(snapshot) {
+		snapshot.forEach(function(doc) {
+			var third=doc.val().Date;
+			if (typeof(third) != 'undefined')
+			{			
+			var thirdDate = new Date(third.split('/')[2],third.split('/')[1],third.split('/')[0]);
+			if (thirdDate>=firstDate && thirdDate<=secondDate) _ref.push(doc.val());
+			}
+		});
+			res.setHeader('Content-Type', 'application/json');
+			return res.status(200).send(_ref);//d);
+		}).catch(error => {
+			return res.status(403).send('Could Not Get Devices');
+		})
+		return true;
+})
+/* --------------------------------------------------------------------- */
 router.post('/getDataResist/', (req, res) => {
 	var _ref = [];
 	var data_from=req.body.data_from;
