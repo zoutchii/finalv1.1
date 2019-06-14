@@ -103,6 +103,8 @@
 		<table>
 			<thead>
 				<tr>
+				        <th class="voltage-current">Date</th>
+					<th class="voltage-current">Time</th>
 					<th class="voltage-current">Test Total</th>
 					<th class="voltage-current">Test OK</th>
 					<th class="voltage-current">Test NOK</th>
@@ -196,7 +198,7 @@ $(document ).ready(function() {
 			'datedeb': datedeb,
 			'datefin': datefin
 		}
-	   		$.post('/getInfoTest/', data, function(data) {
+	   		$.post('/getInfoResistance/', data, function(data) {
 	   		  $('#device_data table tbody').html('');
 		      $("#container .sk-circle").css({"visibility": "hidden"});
 		      if(data.length > 0) {
@@ -204,6 +206,8 @@ $(document ).ready(function() {
 		        $.each(data, function (i, item) {
 				    $('#device_data table tbody').append(
 				    	'<tr class="dev-data">\
+					                <td class="voltage-current">'+item.Date+'</td>\
+							<td class="voltage-current">'+item.Time+'</td>\
 							<td class="voltage-current">'+item.Test_Total+'</td>\
 							<td class="voltage-current">'+item.Test_OK+'</td>\
 							<td class="voltage-current">'+item.Test_NOK+'</td>\
