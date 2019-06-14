@@ -317,6 +317,16 @@ $("#chart-device_select #update-chart").click(function(event) {
 		  $("#container .sk-circle").css({"visibility": "hidden"});
 		  return ;
 	}
+	
+	var temp1 = $("#chart-date-deb").val().split('-');
+	var temp2 = $("#chart-date-fin").val().split('-');
+	var datedeb = parseInt(temp1[2]).toString()+"/"+parseInt(temp1[1]).toString()+"/"+temp1[0].toString();
+	var datefin = parseInt(temp2[2]).toString()+"/"+parseInt(temp2[1]).toString()+"/"+temp2[0].toString();		
+	var data = {
+		'data_from': data_from,
+		'datedeb': datedeb,
+		'datefin': datefin			
+	}
 	$("#console-stat .sk-circle").css({"visibility": "visible"});
 	$.post('/statistic/testTotal', function(data) {
 		console.log(data.length);
@@ -352,15 +362,6 @@ $("#chart-device_select #update-chart").click(function(event) {
 	});
 $(document ).ready(function() {
 });
-	var temp1 = $("#chart-date-deb").val().split('-');
-	var temp2 = $("#chart-date-fin").val().split('-');
-	var datedeb = parseInt(temp1[2]).toString()+"/"+parseInt(temp1[1]).toString()+"/"+temp1[0].toString();
-	var datefin = parseInt(temp2[2]).toString()+"/"+parseInt(temp2[1]).toString()+"/"+temp2[0].toString();		
-	var data = {
-		'data_from': data_from,
-		'datedeb': datedeb,
-		'datefin': datefin			
-	}
 	$.post('/getDataResist/', data, function(data) {
 	  $("#container .sk-circle").css({"visibility": "hidden"});
 	  if(data.length > 0) {
