@@ -1034,7 +1034,6 @@ router.post('/transformer/', (req, res) => {
 });
 /* --------------------------------------------------------------------- */
 router.post('/statistic/testTotal', (req, res) => {
-var obj = [];
 	var data_from=req.body.data_from;
 	var first=req.body.datedeb;
 	var second=req.body.datefin;
@@ -1043,21 +1042,29 @@ var obj = [];
 		var docRef = db1.ref("Test_total_machine1");
 	if (data_from=='2') docRef = db1.ref("Machine2");
 		docRef.once("value", function(snapshot) {
-			snapshot.forEach(function(doc) {
-				var third=doc.val().Date;
+			var obj = [];
+			snapshot.forEach(function(data) {
+				var third=data.val().Date;
 		
 		if (typeof(third) != 'undefined')
 		{
 		var thirdDate = new Date(third.split('/')[2],parseInt(third.split('/')[1])-1,third.split('/')[0]);
-		if (thirdDate>=firstDate && thirdDate<=secondDate) obj.push(doc.val());
+		if (thirdDate>=firstDate && thirdDate<=secondDate) 
+			obj.push(data.val());
 		}
 			});		  
 	res.setHeader('Content-Type', 'application/json');
-		return res.status(200).send(obj);//d);
-	}).catch(error => {
-		return res.status(403).send('Could Not Get Devices');
-	})
-	return true;
+			res.status(200);
+			res.json(obj);
+			return res;		
+		}).catch(error => {
+			return res.status(400).send('error');
+		});
+		
+	}
+	else {
+		return res.status(403).send('UNAUTHORIZED REQUEST!');
+	}
 })	
 router.post('/statistic/testValid', (req, res) => {
 if (req.session.userId) {		
